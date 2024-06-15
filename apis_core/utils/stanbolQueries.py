@@ -3,6 +3,7 @@ import importlib
 
 from django.conf import settings
 import requests
+from security import safe_requests
 
 path_ac_settings = getattr(settings, "APIS_AUTOCOMPLETE_SETTINGS", False)
 if path_ac_settings:
@@ -75,7 +76,7 @@ def find_loc(lst, geonames_chains=False, dec_diff=5):
             for d in pl_selected_fields:
                 ldpath += "{} = <{}>;\n".format(d.split("#")[-1], d)
             data = {"limit": 20, "name": lst[0], "ldpath": ldpath}
-            r = requests.get(s, params=data, headers=headers)
+            r = safe_requests.get(s, params=data, headers=headers)
             if r.status_code == 200:
                 res = r.json()
                 if len(res["results"]) > 0:
@@ -173,7 +174,7 @@ def query_geonames_chains(
                 \nfeatureClass = <http://www.geonames.org/ontology#featureClass>;\n
                 featureCode = <http://www.geonames.org/ontology#featureCode>;\n""",
         }
-        r = requests.get(chain, params=data, headers=headers)
+        r = safe_requests.get(chain, params=data, headers=headers)
         res = r.json()
         for t in res["results"]:
             if (
