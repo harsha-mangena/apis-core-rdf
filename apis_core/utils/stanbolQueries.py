@@ -42,7 +42,7 @@ def find_geonames2(ca, name, adm=None, **kwargs):
     else:
         ca_data = ca.get_data(name)
     ca.get_next_feature()
-    r = requests.post(ca_feature["URL"], data=json.dumps(ca_data), headers=headers)
+    r = requests.post(ca_feature["URL"], data=json.dumps(ca_data), headers=headers, timeout=60)
     if r.status_code == 200:
         res = r.json()
         if len(res["results"]) == 1:
@@ -75,7 +75,7 @@ def find_loc(lst, geonames_chains=False, dec_diff=5):
             for d in pl_selected_fields:
                 ldpath += "{} = <{}>;\n".format(d.split("#")[-1], d)
             data = {"limit": 20, "name": lst[0], "ldpath": ldpath}
-            r = requests.get(s, params=data, headers=headers)
+            r = requests.get(s, params=data, headers=headers, timeout=60)
             if r.status_code == 200:
                 res = r.json()
                 if len(res["results"]) > 0:
@@ -149,7 +149,7 @@ def retrieve_obj(uri):
         "http://enrich.acdh.oeaw.ac.at/entityhub/site/geoNames_S_P_A/entity",
         params={"id": uri},
         headers=headers,
-    )
+    timeout=60)
     if r.status_code == 200:
         return r.json()
     else:
@@ -173,7 +173,7 @@ def query_geonames_chains(
                 \nfeatureClass = <http://www.geonames.org/ontology#featureClass>;\n
                 featureCode = <http://www.geonames.org/ontology#featureCode>;\n""",
         }
-        r = requests.get(chain, params=data, headers=headers)
+        r = requests.get(chain, params=data, headers=headers, timeout=60)
         res = r.json()
         for t in res["results"]:
             if (
