@@ -27,7 +27,7 @@ class Command(BaseCommand):
         }
         """
         lang = options["lang"]
-        r = requests.get(url, params={"format": "json", "query": query % (lang, lang)})
+        r = requests.get(url, params={"format": "json", "query": query % (lang, lang)}, timeout=60)
         data = r.json()
         data = [
             [x["item"]["value"], x["itemLabel"]["value"], x["description"]["value"]]
