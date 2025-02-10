@@ -1,4 +1,3 @@
-import pickle
 import os
 
 import numpy as np
@@ -7,6 +6,7 @@ from keras.preprocessing.text import Tokenizer
 from keras import backend as K
 import de_core_news_sm
 from apis_core.vocabularies.models import VocabsBaseClass
+import fickling
 
 nlp = de_core_news_sm.load()
 
@@ -60,7 +60,7 @@ def test_model(model, sent):
         lst_labels_dict,
         lst_zero_label,
         lst_labels_dhae2,
-    ) = pickle.load(fileh)
+    ) = fickling.load(fileh)
     model = load_model(os.path.join(script_dir, "data/nlp_models/{}.h5".format(model)))
     result = []
     txt = nlp(sent)
