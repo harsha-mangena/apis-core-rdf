@@ -31,9 +31,9 @@ def search_lobid(row, qs_field="query"):
     """sends the value of the passed in field to lobid and returns the results in a dict"""
     query = row[qs_field]
     result = {"query": query, "status": 0, "error": "", "hits": 0, "gnd": []}
-    r = requests.get(query)
+    r = requests.get(query, timeout=60)
     try:
-        r = requests.get(query)
+        r = requests.get(query, timeout=60)
     except requests.ConnectionError:
         result["error"] = "Connection Error"
         return result

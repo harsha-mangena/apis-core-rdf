@@ -235,7 +235,7 @@ class GenericEntitiesAutocomplete(autocomplete.Select2ListView):
                         y["url"].replace("find", "entity"),
                         params=params,
                         headers=headers,
-                    )
+                    timeout=60)
                     res3 = dict()
                     ldpath_fields = [y["fields"][d][0] for d in y["fields"].keys()]
                     print(w.status_code)
@@ -314,7 +314,7 @@ class GenericEntitiesAutocomplete(autocomplete.Select2ListView):
                                 )
                     try:
                         url2 = y["url"].replace("find", "query")
-                        r = requests.post(url2, data=json.dumps(data), headers=headers)
+                        r = requests.post(url2, data=json.dumps(data), headers=headers, timeout=60)
                         if r.status_code != 200:
                             choices.append({"name": "Connection to Stanbol failed"})
                             continue
