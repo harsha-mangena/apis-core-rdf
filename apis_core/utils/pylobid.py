@@ -1,4 +1,5 @@
 import requests
+from security import safe_requests
 
 
 def create_qs(row, cell, q_field="dateOfBirth", char_limit=0):
@@ -31,9 +32,9 @@ def search_lobid(row, qs_field="query"):
     """sends the value of the passed in field to lobid and returns the results in a dict"""
     query = row[qs_field]
     result = {"query": query, "status": 0, "error": "", "hits": 0, "gnd": []}
-    r = requests.get(query)
+    r = safe_requests.get(query)
     try:
-        r = requests.get(query)
+        r = safe_requests.get(query)
     except requests.ConnectionError:
         result["error"] = "Connection Error"
         return result
