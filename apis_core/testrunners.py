@@ -1,23 +1,23 @@
-import random
 import string
 
 from django.test.runner import DiscoverRunner
 from django.contrib.contenttypes.models import ContentType as ct
 from django.db.models import fields as ft_dj
+import secrets
 
 
 def create_data(ft, ln=5):
     print(ft)
     if ft == ft_dj.CharField or ft == ft_dj.TextField:
-        return "".join(random.choices(string.ascii_letters + " ", k=ln))
+        return "".join(secrets.SystemRandom().choices(string.ascii_letters + " ", k=ln))
     elif ft == ft_dj.IntegerField or ft == ft_dj.PositiveIntegerField:
-        return int("".join(random.choices(string.digits, k=ln)))
+        return int("".join(secrets.SystemRandom().choices(string.digits, k=ln)))
     elif ft == ft_dj.DateField:
         return (
-            f"{random.randint(1, 30)}.{random.randint(1, 12)}.{random.randint(1, 2020)}"
+            f"{secrets.SystemRandom().randint(1, 30)}.{secrets.SystemRandom().randint(1, 12)}.{secrets.SystemRandom().randint(1, 2020)}"
         )
     elif ft == ft_dj.BooleanField:
-        return bool(random.getrandbits(1))
+        return bool(secrets.SystemRandom().getrandbits(1))
     else:
         print("didnt find any matching dt")
 
@@ -110,8 +110,7 @@ class APISTestRunner(DiscoverRunner):
                     c_1[fld.name] = create_data(ft_dj.DateField)
                 elif fld.__class__.__name__ == "ForeignKey":
                     c_1[fld.name] = dict_ents[fld.related_model.__name__][
-                        random.randint(
-                            0, len(dict_ents[fld.related_model.__name__]) - 1
+                        secrets.SystemRandom().randint(0, len(dict_ents[fld.related_model.__name__]) - 1
                         )
                     ]
                 elif (
@@ -120,8 +119,7 @@ class APISTestRunner(DiscoverRunner):
                 ):
                     c_1[fld.name] = create_data(
                         fld.__class__,
-                        random.randint(
-                            1,
+                        secrets.SystemRandom().randint(1,
                             (fld.max_length if fld.max_length else 3)
                             if hasattr(fld, "max_length")
                             else 3,
@@ -134,8 +132,7 @@ class APISTestRunner(DiscoverRunner):
                     continue
                 getattr(c_1_obj, fld.name).add(
                     dict_ents[fld.related_model.__name__][
-                        random.randint(
-                            0, len(dict_ents[fld.related_model.__name__]) - 1
+                        secrets.SystemRandom().randint(0, len(dict_ents[fld.related_model.__name__]) - 1
                         )
                     ]
                 )
