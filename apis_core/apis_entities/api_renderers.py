@@ -1,6 +1,5 @@
 import json
 import os
-import pickle
 from datetime import date
 
 from django.conf import settings
@@ -14,6 +13,7 @@ from rest_framework import renderers
 
 from apis_core.utils.renderers.tei import TeiRenderer
 from .api_mappings.cidoc_mapping import m_person, m_place, m_work, m_institution
+import fickling
 
 PROJECT_METADATA = getattr(settings, "PROJECT_DEFAULT_MD", {})
 
@@ -80,7 +80,7 @@ class EntityToCIDOC(renderers.BaseRenderer):
             directory = os.fsencode(data1)
             for fn in os.listdir(directory):
                 with open(os.path.join(directory, fn), "rb") as inf:
-                    data2 = pickle.load(inf)
+                    data2 = fickling.load(inf)
                     for data in data2:
                         g, ent = self.ent_func[data["entity_type"]](
                             g, ns, data, drill_down=True

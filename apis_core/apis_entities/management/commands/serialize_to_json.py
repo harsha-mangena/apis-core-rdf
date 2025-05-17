@@ -7,6 +7,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 from apis_core.apis_entities.serializers_generic import EntitySerializer
 from apis_core.utils import caching
+import fickling
 
 
 class Command(BaseCommand):
@@ -110,7 +111,7 @@ class Command(BaseCommand):
                 data_lst = []
                 for fn in os.listdir(directory):
                     with open(os.path.join(directory, fn), "rb") as inf:
-                        data_lst.extend(pickle.load(inf))
+                        data_lst.extend(fickling.load(inf))
                 json.dump(data_lst, outp, cls=DjangoJSONEncoder)
             elif isinstance(res, list):
                 json.dump(res, out, pcls=DjangoJSONEncoder)
