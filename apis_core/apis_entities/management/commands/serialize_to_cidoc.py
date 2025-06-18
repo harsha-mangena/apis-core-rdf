@@ -260,7 +260,7 @@ class Command(BaseCommand):
                             auth=(vocabs_ts_user, vocabs_ts_password),
                             headers={"Accept": "application/xml"},
                             params=params,
-                        )
+                        timeout=60)
                         self.stdout.write(
                             self.style.NOTICE(
                                 f"Deleted the graph: {res3.text} {res3.status_code}"
@@ -272,7 +272,7 @@ class Command(BaseCommand):
                         headers=header,
                         data=fin_vocab.serialize(format=options["format"]),
                         auth=(vocabs_ts_user, vocabs_ts_password),
-                    )
+                    timeout=60)
                     sparql_serv_skosmos.setQuery(sp_count)
                     res_count_1 = sparql_serv_skosmos.query().convert()
                     count = int(
@@ -347,7 +347,7 @@ class Command(BaseCommand):
                     auth=(username, password),
                     headers={"Accept": "application/xml"},
                     params=params,
-                )
+                timeout=60)
                 self.stdout.write(
                     self.style.NOTICE(
                         f"Deleted the graph: {res3.text} {res3.status_code}"
@@ -360,7 +360,7 @@ class Command(BaseCommand):
                         auth=(username, password),
                         headers={"Accept": "application/xml"},
                         params=params,
-                    )
+                    timeout=60)
                     self.stdout.write(
                         self.style.NOTICE(
                             f"Deleted the vocabs graph: {res4.text} {res4.status_code}"
@@ -405,7 +405,7 @@ class Command(BaseCommand):
                 headers=header,
                 data=fin.serialize(format=options["format"]),
                 auth=(username, password),
-            )
+            timeout=60)
             sparql_serv.setQuery(sp_count)
             res_count_1 = sparql_serv.query().convert()
             count = int(res_count_1["results"]["bindings"][0]["triples"]["value"])
