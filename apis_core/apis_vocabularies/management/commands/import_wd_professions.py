@@ -1,7 +1,7 @@
-import requests
 from django.core.management.base import BaseCommand
 
 from apis_core.apis_vocabularies.models import ProfessionType
+from security import safe_requests
 
 
 class Command(BaseCommand):
@@ -27,7 +27,7 @@ class Command(BaseCommand):
         }
         """
         lang = options["lang"]
-        r = requests.get(url, params={"format": "json", "query": query % (lang, lang)})
+        r = safe_requests.get(url, params={"format": "json", "query": query % (lang, lang)})
         data = r.json()
         data = [
             [x["item"]["value"], x["itemLabel"]["value"], x["description"]["value"]]

@@ -20,6 +20,7 @@ from apis_core.apis_vocabularies.models import VocabsBaseClass
 from apis_core.utils import caching
 from apis_core.utils.caching import get_autocomplete_property_choices
 from apis_core.utils.settings import get_entity_settings_by_modelname
+from security import safe_requests
 
 path_ac_settings = getattr(settings, "APIS_AUTOCOMPLETE_SETTINGS", False)
 if path_ac_settings:
@@ -231,7 +232,7 @@ class GenericEntitiesAutocomplete(autocomplete.Select2ListView):
                         url = self.q.strip()
                     params = {"id": url, "ldpath": ldpath}
                     headers = {"Content-Type": "application/json"}
-                    w = requests.get(
+                    w = safe_requests.get(
                         y["url"].replace("find", "entity"),
                         params=params,
                         headers=headers,
